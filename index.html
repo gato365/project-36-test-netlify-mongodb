@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MongoDB with Netlify Functions</title>
+    </head>
+    <body>
+        <h1>MongoDB with Netlify Functions</h1>
+        <ul id="movies"></ul>
+        <script>
+            console.log("wassup");
+            (async () => {
+                try {
+                    let results = await fetch('/.netlify/functions/get_movies').then(response => response.json());
+                    if (Array.isArray(results)) {
+                        results.forEach(result => {
+                            const listItem = document.createElement('li');
+                            listItem.innerText = result.title;
+                            document.getElementById('movies').appendChild(listItem);
+                        });
+                    } else {
+                        console.log('Results is not an array');
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
+            })();
+        </script>
+    </body>
+</html>
